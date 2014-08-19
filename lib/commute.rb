@@ -1,12 +1,17 @@
 require 'csv'
 require 'awesome_print'
 
+## CSV INTO TABLE
 
 table = CSV.read('/Users/seansmith/gSchoolWork/warmups/commute-warm-up/data/gschool_commute_data.csv', headers: true)
+
+## CSV ROWS TO HASHES
 
 hashes = table.map do |row|
   row.to_hash
 end
+
+## SORTING BY WEEK THEN DAY
 
 days = {"Monday" => 1, "Tuesday" => 2, "Wednesday" => 3, "Thursday" => 4, "Friday" => 5}
 
@@ -20,9 +25,9 @@ new = hashes.sort do |a, b|
   end
 end
 
-data =  new.group_by { |row| row["Person"] }
+## GROUPING BY PERSON
 
-ap data
+data = new.group_by { |row| row["Person"] }
 
 data.each do |k,v|
   v.each do |row|
@@ -30,10 +35,7 @@ data.each do |k,v|
   end
 end
 
-
-new = data.each do |k,v|
-  v
-end
+## ANSWERS
 
 data["Nate"].each do |row|
   p "Nate's inbound commute on Week 4 Wednesday was #{row["Inbound"].to_i} minutes" if row["Week"] == "4" && row["Day"] == "Wednesday"
